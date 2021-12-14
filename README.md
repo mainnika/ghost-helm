@@ -5,8 +5,8 @@
 ## TL;DR
 
 ```console
-$ helm repo add bitnami https://charts.bitnami.com/bitnami
-$ helm install my-release bitnami/ghost
+$ git clone https://github.com/mainnika/ghost-helm
+$ helm install my-release ./ghost-helm
 ```
 
 ## Introduction
@@ -29,7 +29,8 @@ Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment
 To install the chart with the release name `my-release`:
 
 ```console
-$ helm install my-release bitnami/ghost
+$ git clone https://github.com/mainnika/ghost-helm
+$ helm install my-release ./ghost-helm
 ```
 
 The command deploys Ghost on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
