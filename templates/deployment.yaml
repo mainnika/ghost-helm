@@ -128,11 +128,13 @@ spec:
               value: {{ include "ghost.databaseName" . | quote }}
             - name: database__connection__user
               value: {{ include "ghost.databaseUser" . | quote }}
+            {{- if (include "ghost.databaseSecretName" . ) }}
             - name: database__connection__password
               valueFrom:
                 secretKeyRef:
                   name: {{ include "ghost.databaseSecretName" . }}
                   key: db-password
+            {{- end }}
             - name: url
               value: {{ include "ghost.host" . | quote }}
             - name: admin__url
@@ -153,7 +155,7 @@ spec:
             - name: mail__options__auth__user
               value: {{ .Values.smtpUser | quote }}
             {{- end }}
-            {{- if .Values.smtpPassword }}
+            {{- if (include "ghost.smtpSecretName" . ) }}
             - name: mail__options__auth__pass
               valueFrom:
                 secretKeyRef:
