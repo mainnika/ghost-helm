@@ -133,9 +133,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | `containerPorts.http`                   | Ghost HTTP container port                                                                 | `2368`          |
 | `containerPorts.https`                  | Ghost HTTPS container port                                                                | `2368`          |
 | `podSecurityContext.enabled`            | Enabled Ghost pods' Security Context                                                      | `true`          |
-| `podSecurityContext.fsGroup`            | Set Ghost pod's Security Context fsGroup                                                  | `1001`          |
+| `podSecurityContext.fsGroup`            | Set Ghost pod's Security Context fsGroup                                                  | `1000`          |
 | `containerSecurityContext.enabled`      | Enabled Ghost containers' Security Context                                                | `true`          |
-| `containerSecurityContext.runAsUser`    | Set Ghost container's Security Context runAsUser                                          | `1001`          |
+| `containerSecurityContext.runAsUser`    | Set Ghost container's Security Context runAsUser                                          | `1000`          |
 | `containerSecurityContext.runAsNonRoot` | Set Ghost container's Security Context runAsNonRoot                                       | `true`          |
 | `startupProbe.enabled`                  | Enable startupProbe                                                                       | `false`         |
 | `startupProbe.initialDelaySeconds`      | Initial delay seconds for startupProbe                                                    | `120`           |

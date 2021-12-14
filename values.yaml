@@ -259,7 +259,7 @@ containerPorts:
 ##
 podSecurityContext:
   enabled: true
-  fsGroup: 1001
+  fsGroup: 1000
 ## Configure Container Security Context (only main container)
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
 ## @param containerSecurityContext.enabled Enabled Ghost containers' Security Context
@@ -268,7 +268,7 @@ podSecurityContext:
 ##
 containerSecurityContext:
   enabled: true
-  runAsUser: 1001
+  runAsUser: 1000
   runAsNonRoot: true
 ## Configure extra options for Ghost containers' liveness, readiness and startup probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
