@@ -13,9 +13,7 @@ $ helm install my-release ./ghost-helm
 
 This chart bootstraps a [Ghost](https://github.com/mainnika/ghost-docker) deployment on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
-It also packages the [Bitnami MariaDB chart](https://github.com/bitnami/charts/tree/master/bitnami/mariadb) which is required for bootstrapping a MariaDB deployment for the database requirements of the Ghost application.
-
-Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment and management of Helm Charts in clusters. This chart has been tested to work with NGINX Ingress, cert-manager, fluentd and Prometheus on top of the [BKPR](https://kubeprod.io/).
+There is neither embedded mysql database or sqlite support, the only external database is supported.
 
 ## Prerequisites
 
@@ -23,6 +21,7 @@ Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment
 - Helm 3.1.0
 - PV provisioner support in the underlying infrastructure
 - ReadWriteMany volumes for deployment scaling
+- External database (like MariaDB)
 
 ## Installing the Chart
 
@@ -223,22 +222,11 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name                                       | Description                                                               | Value           |
 | ------------------------------------------ | ------------------------------------------------------------------------- | --------------- |
-| `mariadb.enabled`                          | Deploy a MariaDB server to satisfy the applications database requirements | `true`          |
-| `mariadb.architecture`                     | MariaDB architecture. Allowed values: `standalone` or `replication`       | `standalone`    |
-| `mariadb.auth.rootPassword`                | MariaDB root password                                                     | `""`            |
-| `mariadb.auth.database`                    | MariaDB custom database                                                   | `bitnami_ghost` |
-| `mariadb.auth.username`                    | MariaDB custom user name                                                  | `bn_ghost`      |
-| `mariadb.auth.password`                    | MariaDB custom user password                                              | `""`            |
-| `mariadb.auth.existingSecret`              | Existing secret with MariaDB credentials                                  | `""`            |
-| `mariadb.primary.persistence.enabled`      | Enable persistence on MariaDB using PVC(s)                                | `true`          |
-| `mariadb.primary.persistence.storageClass` | Persistent Volume storage class                                           | `""`            |
-| `mariadb.primary.persistence.accessModes`  | Persistent Volume access modes                                            | `[]`            |
-| `mariadb.primary.persistence.size`         | Persistent Volume size                                                    | `8Gi`           |
 | `externalDatabase.host`                    | External Database server host                                             | `localhost`     |
 | `externalDatabase.port`                    | External Database server port                                             | `3306`          |
-| `externalDatabase.user`                    | External Database username                                                | `bn_ghost`      |
+| `externalDatabase.user`                    | External Database username                                                | `ghost`      |
 | `externalDatabase.password`                | External Database user password                                           | `""`            |
-| `externalDatabase.database`                | External Database database name                                           | `bitnami_ghost` |
+| `externalDatabase.database`                | External Database database name                                           | `ghost` |
 | `externalDatabase.existingSecret`          | The name of an existing secret with database credentials                  | `""`            |
 
 
@@ -255,8 +243,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | `networkPolicy.ingressRules.accessOnlyFrom.podSelector`       | Pods selector label that is allowed to access Ghost. This label will be used to identified the allowed pod(s).            | `{}`    |
 | `networkPolicy.ingressRules.customRules`                      | Custom network policy ingress rule                                                                                        | `{}`    |
 
-
-The above parameters map to the env variables defined in [bitnami/ghost](https://github.com/bitnami/bitnami-docker-ghost). For more information please refer to the [bitnami/ghost](https://github.com/bitnami/bitnami-docker-ghost) image documentation.
 
 > **Note**:
 >
@@ -276,8 +262,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 
 ```console
 $ helm install my-release \
-  --set ghostUsername=admin,ghostPassword=password,mariadb.auth.rootPassword=secretpassword \
-    bitnami/ghost
+  --set externalDatabase.password=secretpassword ./ghost-helm
 ```
 
 The above command sets the Ghost administrator account username and password to `admin` and `password` respectively. Additionally, it sets the MariaDB `root` user password to `secretpassword`.
@@ -298,14 +283,11 @@ $ helm install my-release -f values.yaml bitnami/ghost
 
 It is strongly recommended to use immutable tags in a production environment. This ensures your deployment does not change automatically if the same tag is updated with a different image.
 
-Bitnami will release a new chart updating its containers if a new version of the main container, significant changes, or critical vulnerabilities exist.
-
 ### External database support
 
-You may want to have Ghost connect to an external database rather than installing one inside your cluster. Typical reasons for this are to use a managed database service, or to share a common database server for all your applications. To achieve this, the chart allows you to specify credentials for an external database with the [`externalDatabase` parameter](#database-parameters). You should also disable the MariaDB installation with the `mariadb.enabled` option. Here is an example:
+The chart allows you to specify credentials for an external database with the [`externalDatabase` parameter](#database-parameters). Here is an example:
 
 ```console
-mariadb.enabled=false
 externalDatabase.host=myexternalhost
 externalDatabase.user=myuser
 externalDatabase.password=mypassword
