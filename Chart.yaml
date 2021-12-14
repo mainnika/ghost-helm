@@ -23,6 +23,8 @@ keywords:
 maintainers:
   - email: containers@bitnami.com
     name: Bitnami
+  - email: nikita@tokarch.uk
+    name: Nikita Tokarchuk
 name: ghost
 sources:
   - https://github.com/mainnika/ghost-docker
