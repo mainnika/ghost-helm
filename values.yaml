@@ -73,7 +73,7 @@ image:
 
 ## @section Ghost Configuration parameters
 ## Ghost settings based on environment variables
-## ref: https://github.com/bitnami/bitnami-docker-ghost#configuration
+## ref: https://ghost.org/docs/config
 
 ## @param ghostEmail Ghost user email
 ##
@@ -88,7 +88,7 @@ ghostPath: /
 ##
 ghostEnableHttps: false
 ## SMTP mail delivery configuration
-## ref: https://github.com/bitnami/bitnami-docker-ghost/#smtp-configuration
+## ref: https://ghost.org/docs/config/#mail
 ## @param smtpHost SMTP server host
 ## @param smtpPort SMTP server port
 ## @param smtpUser SMTP username
