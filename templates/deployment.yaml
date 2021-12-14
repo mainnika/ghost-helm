@@ -108,46 +108,46 @@ spec:
           args: {{- include "common.tplvalues.render" (dict "value" .Values.args "context" $) | nindent 12 }}
           {{- end }}
           env:
-            - name: GHOST_DATABASE_HOST
+            - name: database__connection__host
               value: {{ include "ghost.databaseHost" . | quote }}
-            - name: GHOST_DATABASE_PORT_NUMBER
+            - name: database__connection__port
               value: {{ include "ghost.databasePort" . | quote }}
-            - name: GHOST_DATABASE_NAME
+            - name: database__connection__database
               value: {{ include "ghost.databaseName" . | quote }}
-            - name: GHOST_DATABASE_USER
+            - name: database__connection__user
               value: {{ include "ghost.databaseUser" . | quote }}
-            - name: GHOST_DATABASE_PASSWORD
+            - name: database__connection__password
               valueFrom:
                 secretKeyRef:
                   name: {{ include "ghost.databaseSecretName" . }}
                   key: db-password
-            - name: GHOST_HOST
+            - name: url
               value: {{ include "ghost.host" . | quote }}
-            - name: GHOST_PORT_NUMBER
+            - name: server__port
               value: {{ ternary .Values.containerPorts.https .Values.containerPorts.http .Values.ghostEnableHttps | quote }}
-            - name: GHOST_EMAIL
+            - name: mail__from
               value: {{ .Values.ghostEmail | quote }}
             {{- if .Values.smtpHost }}
-            - name: GHOST_SMTP_HOST
+            - name: mail__options__host
               value: {{ .Values.smtpHost | quote }}
             {{- end }}
             {{- if .Values.smtpPort }}
-            - name: GHOST_SMTP_PORT
+            - name: mail__options__post
               value: {{ .Values.smtpPort | quote }}
             {{- end }}
             {{- if .Values.smtpUser }}
-            - name: GHOST_SMTP_USER
+            - name: mail__options__auth__user
               value: {{ .Values.smtpUser | quote }}
             {{- end }}
             {{- if .Values.smtpPassword }}
-            - name: GHOST_SMTP_PASSWORD
+            - name: mail__options__auth__pass
               valueFrom:
                 secretKeyRef:
                   name: {{ include "common.secrets.name" (dict "existingSecret" .Values.existingSecret "context" $) }}
                   key: {{ include "common.secrets.key" (dict "existingSecret" .Values.existingSecret "key" "smtp-password") }}
             {{- end }}
             {{- if .Values.smtpService }}
-            - name: GHOST_SMTP_SERVICE
+            - name: mail__options__service
               value: {{ .Values.smtpService | quote }}
             {{- end }}
             {{- if .Values.extraEnvVars }}
