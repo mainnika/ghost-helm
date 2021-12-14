@@ -123,6 +123,8 @@ spec:
                   key: db-password
             - name: url
               value: {{ include "ghost.host" . | quote }}
+            - name: admin__url
+              value: {{ include "ghost.host" . | quote }}
             - name: server__port
               value: {{ ternary .Values.containerPorts.https .Values.containerPorts.http .Values.ghostEnableHttps | quote }}
             - name: mail__from

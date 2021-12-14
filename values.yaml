@@ -80,7 +80,7 @@ image:
 ghostEmail: user@example.com
 ## @param ghostHost Ghost host to create application URLs
 ##
-ghostHost: ""
+ghostHost: "example.com"
 ## @param ghostPath URL sub path where to server the Ghost application
 ##
 ghostPath: /
