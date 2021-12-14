@@ -1,0 +1,13 @@
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*~
+# Various IDEs
+.project
+.idea/
+*.tmproj
+# Binary deps
+charts/
+# Macos files
+.DS_Store
