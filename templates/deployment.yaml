@@ -143,8 +143,8 @@ spec:
             - name: mail__options__auth__pass
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "common.secrets.name" (dict "existingSecret" .Values.existingSecret "context" $) }}
-                  key: {{ include "common.secrets.key" (dict "existingSecret" .Values.existingSecret "key" "smtp-password") }}
+                  name: {{ include "ghost.smtpSecretName" . }}
+                  key: smtp-password
             {{- end }}
             {{- if .Values.smtpService }}
             - name: mail__options__service
