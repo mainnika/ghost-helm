@@ -39,9 +39,9 @@ If not using ClusterIP, or if a host or LoadBalancerIP is not defined, the value
 */}}
 {{- define "ghost.host" -}}
 {{- if .Values.ingress.enabled }}
-    {{- printf "%s%s" .Values.ingress.hostname .Values.ingress.path | default "" -}}
+    {{- printf "%s://%s%s" (ternary "https" "http" .Values.ghostEnableHttps) .Values.ingress.hostname .Values.ingress.path | default "" -}}
 {{- else if .Values.ghostHost -}}
-    {{- printf "%s%s" .Values.ghostHost .Values.ghostPath | default "" -}}
+    {{- printf "%s://%s%s" (ternary "https" "http" .Values.ghostEnableHttps) .Values.ghostHost .Values.ghostPath | default "" -}}
 {{- else -}}
     {{- include "ghost.serviceIP" . -}}
 {{- end -}}
