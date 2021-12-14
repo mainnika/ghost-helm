@@ -2,25 +2,9 @@
   "$schema": "http://json-schema.org/schema#",
   "type": "object",
   "properties": {
-    "ghostUsername": {
-      "type": "string",
-      "title": "User",
-      "form": true
-    },
-    "ghostPassword": {
-      "type": "string",
-      "title": "Password",
-      "form": true,
-      "description": "Defaults to a random 10-character alphanumeric string if not set"
-    },
     "ghostEmail": {
       "type": "string",
       "title": "Admin email",
-      "form": true
-    },
-    "ghostBlogTitle": {
-      "type": "string",
-      "title": "Blog Name",
       "form": true
     },
     "ghostHost": {

@@ -75,24 +75,9 @@ image:
 ## Ghost settings based on environment variables
 ## ref: https://github.com/bitnami/bitnami-docker-ghost#configuration
 
-## @param ghostUsername Ghost user name
-##
-ghostUsername: user
-## @param ghostPassword Ghost user password
-## Defaults to a random 10-character alphanumeric string if not set
-##
-ghostPassword: ""
-## @param existingSecret Name of existing secret containing Ghost credentials
-## NOTE: Must contain key `ghost-password`
-## NOTE: When it's set, the `ghostPassword` parameter is ignored
-##
-existingSecret: ""
 ## @param ghostEmail Ghost user email
 ##
 ghostEmail: user@example.com
-## @param ghostBlogTitle Ghost Blog title
-##
-ghostBlogTitle: User's Blog
 ## @param ghostHost Ghost host to create application URLs
 ##
 ghostHost: ""
@@ -120,12 +105,6 @@ smtpService: ""
 ## NOTE: When it's set, the `smtpPassword` parameter is ignored
 ##
 smtpExistingSecret: ""
-## @param allowEmptyPassword Allow the container to be started with blank passwords
-##
-allowEmptyPassword: true
-## @param ghostSkipInstall Skip performing the initial bootstrapping for Ghost
-##
-ghostSkipInstall: false
 ## @param command Override default container command (useful when using custom images)
 ##
 command: []

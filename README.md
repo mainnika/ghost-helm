@@ -86,11 +86,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name                 | Description                                                          | Value              |
 | -------------------- | -------------------------------------------------------------------- | ------------------ |
-| `ghostUsername`      | Ghost user name                                                      | `user`             |
-| `ghostPassword`      | Ghost user password                                                  | `""`               |
-| `existingSecret`     | Name of existing secret containing Ghost credentials                 | `""`               |
 | `ghostEmail`         | Ghost user email                                                     | `user@example.com` |
-| `ghostBlogTitle`     | Ghost Blog title                                                     | `User's Blog`      |
 | `ghostHost`          | Ghost host to create application URLs                                | `""`               |
 | `ghostPath`          | URL sub path where to server the Ghost application                   | `/`                |
 | `ghostEnableHttps`   | Configure Ghost to build application URLs using https                | `false`            |
@@ -100,8 +96,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | `smtpPassword`       | SMTP user password                                                   | `""`               |
 | `smtpService`        | SMTP service                                                         | `""`               |
 | `smtpExistingSecret` | The name of an existing secret with SMTP credentials                 | `""`               |
-| `allowEmptyPassword` | Allow the container to be started with blank passwords               | `true`             |
-| `ghostSkipInstall`   | Skip performing the initial bootstrapping for Ghost                  | `false`            |
 | `command`            | Override default container command (useful when using custom images) | `[]`               |
 | `args`               | Override default container args (useful when using custom images)    | `[]`               |
 | `extraEnvVars`       | Array with extra environment variables to add to the Ghost container | `[]`               |

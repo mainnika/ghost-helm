@@ -108,10 +108,6 @@ spec:
           args: {{- include "common.tplvalues.render" (dict "value" .Values.args "context" $) | nindent 12 }}
           {{- end }}
           env:
-            - name: BITNAMI_DEBUG
-              value: {{ ternary "true" "false" .Values.image.debug | quote }}
-            - name: ALLOW_EMPTY_PASSWORD
-              value: {{ ternary "yes" "no" .Values.allowEmptyPassword | quote }}
             - name: GHOST_DATABASE_HOST
               value: {{ include "ghost.databaseHost" . | quote }}
             - name: GHOST_DATABASE_PORT_NUMBER
@@ -129,25 +125,8 @@ spec:
               value: {{ include "ghost.host" . | quote }}
             - name: GHOST_PORT_NUMBER
               value: {{ ternary .Values.containerPorts.https .Values.containerPorts.http .Values.ghostEnableHttps | quote }}
-            - name: GHOST_USERNAME
-              value: {{ .Values.ghostUsername | quote }}
-            - name: GHOST_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "common.secrets.name" (dict "existingSecret" .Values.existingSecret "context" $) }}
-                  key: {{ include "common.secrets.key" (dict "existingSecret" .Values.existingSecret "key" "ghost-password") }}
             - name: GHOST_EMAIL
               value: {{ .Values.ghostEmail | quote }}
-            - name: GHOST_BLOG_TITLE
-              value: {{ .Values.ghostBlogTitle | quote }}
-            - name: GHOST_ENABLE_HTTPS
-              value: {{ ternary "yes" "no" .Values.ghostEnableHttps | quote }}
-            - name: GHOST_EXTERNAL_HTTP_PORT_NUMBER
-              value: {{ coalesce .Values.service.ports.http .Values.service.port| quote }}
-            - name: GHOST_EXTERNAL_HTTPS_PORT_NUMBER
-              value: {{ coalesce .Values.service.ports.https .Values.service.httpsPort| quote }}
-            - name: GHOST_SKIP_BOOTSTRAP
-              value: {{ ternary "yes" "no" .Values.ghostSkipInstall  | quote }}
             {{- if .Values.smtpHost }}
             - name: GHOST_SMTP_HOST
               value: {{ .Values.smtpHost | quote }}

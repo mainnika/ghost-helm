@@ -80,7 +80,6 @@ host. To configure Ghost with the URL of your service:
 2. Get your Ghost login credentials by running:
 
   echo Email:    {{ .Values.ghostEmail }}
-  echo Password: $(kubectl get secret --namespace {{ .Release.Namespace }} {{ template "common.names.fullname" . }} -o jsonpath="{.data.{{- $ghostPasswordKey -}}}" | base64 --decode)
 
 {{- end }}
 
@@ -111,8 +110,6 @@ host. To configure Ghost to use and external database host:
   export APP_HOST=127.0.0.1
 
 {{- end }}
-
-  {{ include "common.utils.secret.getvalue" (dict "secret" $ghostSecretName "field" $ghostPasswordKey "context" $) }}
 
   ## PLEASE UPDATE THE EXTERNAL DATABASE CONNECTION PARAMETERS IN THE FOLLOWING COMMAND AS NEEDED ##
 
