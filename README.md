@@ -11,7 +11,7 @@ $ helm install my-release ./ghost-helm
 
 ## Introduction
 
-This chart bootstraps a [Ghost](https://github.com/bitnami/bitnami-docker-ghost) deployment on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps a [Ghost](https://github.com/mainnika/ghost-docker) deployment on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 It also packages the [Bitnami MariaDB chart](https://github.com/bitnami/charts/tree/master/bitnami/mariadb) which is required for bootstrapping a MariaDB deployment for the database requirements of the Ghost application.
 
@@ -75,9 +75,9 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name                | Description                                      | Value                 |
 | ------------------- | ------------------------------------------------ | --------------------- |
-| `image.registry`    | Ghost image registry                             | `docker.io`           |
-| `image.repository`  | Ghost image repository                           | `bitnami/ghost`       |
-| `image.tag`         | Ghost image tag (immutable tags are recommended) | `4.24.0-debian-10-r2` |
+| `image.registry`    | Ghost image registry                             | `ghcr.io`             |
+| `image.repository`  | Ghost image repository                           | `mainnika/ghost`      |
+| `image.tag`         | Ghost image tag (immutable tags are recommended) | ``                    |
 | `image.pullPolicy`  | Ghost image pull policy                          | `IfNotPresent`        |
 | `image.pullSecrets` | Ghost image pull secrets                         | `[]`                  |
 | `image.debug`       | Enable image debug mode                          | `false`               |
@@ -359,7 +359,7 @@ As an alternative, you can use the preset configurations for pod affinity, pod a
 
 ## Persistence
 
-The [Bitnami Ghost](https://github.com/bitnami/bitnami-docker-ghost) image stores the Ghost data and configurations at the `/bitnami/ghost` and `/bitnami/apache` paths of the container.
+The [Ghost](https://github.com/mainnika/ghost-docker) image stores the Ghost data and configurations at the `/var/lib/ghost/content` paths of the container.
 
 Persistent Volume Claims are used to keep the data across deployments. This is known to work in GCE, AWS, and minikube.
 See the [Parameters](#parameters) section to configure the PVC or to disable persistence.

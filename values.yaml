@@ -42,8 +42,7 @@ extraDeploy: []
 
 ## @section Ghost Image parameters
 
-## Bitnami Ghost image
-## ref: https://hub.docker.com/r/bitnami/ghost/tags/
+## Ghost image
 ## @param image.registry Ghost image registry
 ## @param image.repository Ghost image repository
 ## @param image.tag Ghost image tag (immutable tags are recommended)
@@ -52,9 +51,9 @@ extraDeploy: []
 ## @param image.debug Enable image debug mode
 ##
 image:
-  registry: docker.io
-  repository: bitnami/ghost
-  tag: 4.24.0-debian-10-r2
+  registry: ghcr.io
+  repository: mainnika/ghost
+  # tag: ''
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
