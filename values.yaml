@@ -666,18 +666,12 @@ networkPolicy:
     ##   label: ingress
     ##
     namespaceSelector: {}
-  ## @param networkPolicy.ingressRules.backendOnlyAccessibleByFrontend Enable ingress rule that makes the backend (mariadb) only accessible by Ghost's pods.
-  ## @param networkPolicy.ingressRules.customBackendSelector Backend selector labels. These labels will be used to identify the backend pods.
   ## @param networkPolicy.ingressRules.accessOnlyFrom.enabled Enable ingress rule that makes Ghost only accessible from a particular origin
   ## @param networkPolicy.ingressRules.accessOnlyFrom.namespaceSelector Namespace selector label that is allowed to access Ghost. This label will be used to identified the allowed namespace(s).
   ## @param networkPolicy.ingressRules.accessOnlyFrom.podSelector Pods selector label that is allowed to access Ghost. This label will be used to identified the allowed pod(s).
   ## @param networkPolicy.ingressRules.customRules Custom network policy ingress rule
   ##
   ingressRules:
-    ## mariadb backend only can be accessed from Ghost
-    ##
-    backendOnlyAccessibleByFrontend: false
-    customBackendSelector: {}
     ## Allow only from the indicated:
     ##
     accessOnlyFrom:
@@ -704,16 +698,3 @@ networkPolicy:
   ## @param networkPolicy.egressRules.denyConnectionsToExternal Enable egress rule that denies outgoing traffic outside the cluster, except for DNS (port 53).
   ## @param networkPolicy.egressRules.customRules Custom network policy rule
   ##
-  egressRules:
-    ## Deny connections to external. This is not compatible with an external database.
-    ##
-    denyConnectionsToExternal: false
-    ## Additional custom egress rules
-    ## e.g:
-    ## customRules:
-    ##   - to:
-    ##       - namespaceSelector:
-    ##           matchLabels:
-    ##             label: example
-    ##
-    customRules: {}

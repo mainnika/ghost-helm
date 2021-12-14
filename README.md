@@ -250,14 +250,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | `networkPolicy.ingress.enabled`                               | Enable network policy for Ingress Proxies                                                                                 | `false` |
 | `networkPolicy.ingress.namespaceSelector`                     | Ingress Proxy namespace selector labels. These labels will be used to identify the Ingress Proxy's namespace.             | `{}`    |
 | `networkPolicy.ingress.podSelector`                           | Ingress Proxy pods selector labels. These labels will be used to identify the Ingress Proxy pods.                         | `{}`    |
-| `networkPolicy.ingressRules.backendOnlyAccessibleByFrontend`  | Enable ingress rule that makes the backend (mariadb) only accessible by Ghost's pods.                                     | `false` |
-| `networkPolicy.ingressRules.customBackendSelector`            | Backend selector labels. These labels will be used to identify the backend pods.                                          | `{}`    |
 | `networkPolicy.ingressRules.accessOnlyFrom.enabled`           | Enable ingress rule that makes Ghost only accessible from a particular origin                                             | `false` |
 | `networkPolicy.ingressRules.accessOnlyFrom.namespaceSelector` | Namespace selector label that is allowed to access Ghost. This label will be used to identified the allowed namespace(s). | `{}`    |
 | `networkPolicy.ingressRules.accessOnlyFrom.podSelector`       | Pods selector label that is allowed to access Ghost. This label will be used to identified the allowed pod(s).            | `{}`    |
 | `networkPolicy.ingressRules.customRules`                      | Custom network policy ingress rule                                                                                        | `{}`    |
-| `networkPolicy.egressRules.denyConnectionsToExternal`         | Enable egress rule that denies outgoing traffic outside the cluster, except for DNS (port 53).                            | `false` |
-| `networkPolicy.egressRules.customRules`                       | Custom network policy rule                                                                                                | `{}`    |
 
 
 The above parameters map to the env variables defined in [bitnami/ghost](https://github.com/bitnami/bitnami-docker-ghost). For more information please refer to the [bitnami/ghost](https://github.com/bitnami/bitnami-docker-ghost) image documentation.
