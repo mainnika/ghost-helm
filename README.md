@@ -1,5 +1,8 @@
 # Ghost
 
+> This repository is a fork of the bitnami-ghost helm chart modified to work with a native ghost docker image.
+> See https://github.com/bitnami/charts/tree/master/bitnami/ghost.
+
 [Ghost](https://ghost.org/) is an open source publishing platform designed to create blogs, magazines, and news sites. It includes a simple markdown editor with preview, theming, and SEO built-in to simplify editing.
 
 ## TL;DR
