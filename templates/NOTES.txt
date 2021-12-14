@@ -4,12 +4,12 @@ APP VERSION: {{ .Chart.AppVersion }}
 
 ** Please be patient while the chart is being deployed **
 
-{{- $ghostSecretName := (include "common.names.fullname" .) -}}
+{{- $ghostSecretName := ( include "common.names.fullname" . ) -}}
 {{- $databaseSecretName := include "ghost.databaseSecretName" . -}}
 
 {{- if .Values.externalDatabase.host -}}
 
-{{- if empty (include "ghost.host" .) -}}
+{{- if empty ( include "ghost.host" . ) -}}
 ###############################################################################
 ### ERROR: You did not provide an external host in your 'helm install' call ###
 ###############################################################################
@@ -21,25 +21,25 @@ host. To configure Ghost with the URL of your service:
 
   {{- if contains "NodePort" .Values.service.type }}
 
-  export APP_HOST=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  export APP_HOST=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}" )
 
   {{- else if contains "LoadBalancer" .Values.service.type }}
 
   NOTE: It may take a few minutes for the LoadBalancer IP to be available.
         Watch the status with: 'kubectl get svc --namespace {{ .Release.Namespace }} -w {{ template "common.names.fullname" . }}'
 
-  export APP_HOST=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "common.names.fullname" . }} --template "{{ "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}" }}")
+  export APP_HOST=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "common.names.fullname" . }} --template "{{ "{{ range ( index .status.loadBalancer.ingress 0 ) }}{{ . }}{{ end }}" }}" )
 
   {{- end }}
 
-  {{ include "common.utils.secret.getvalue" (dict "secret" $databaseSecretName "field" "db-password" "context" $) }}
+  {{ include "common.utils.secret.getvalue" ( dict "secret" $databaseSecretName "field" "db-password" "context" $ ) }}
 
 2. Complete your Ghost deployment by running:
 
   ## PLEASE UPDATE THE EXTERNAL DATABASE CONNECTION PARAMETERS IN THE FOLLOWING COMMAND AS NEEDED ##
 
   helm upgrade --namespace {{ .Release.Namespace }} {{ .Release.Name }} ./ghost-helm \
-    --set service.type={{ .Values.service.type }},ghostHost=$APP_HOST,{{- if contains "NodePort" .Values.service.type }}service.nodePort=$APP_PORT,{{- end }}{{- if not (empty .Values.externalDatabase.host) }},externalDatabase.host={{ .Values.externalDatabase.host }}{{- end }}{{- if not (empty .Values.externalDatabase.user) }},externalDatabase.user={{ .Values.externalDatabase.user }}{{- end }}{{- if not (empty .Values.externalDatabase.password) }},externalDatabase.password={{ .Values.externalDatabase.password }}{{- end }}{{- if not (empty .Values.externalDatabase.database) }},externalDatabase.database={{ .Values.externalDatabase.database }}{{- end }}
+    --set service.type={{ .Values.service.type }},ghostHost=$APP_HOST,{{- if contains "NodePort" .Values.service.type }}service.nodePort=$APP_PORT,{{- end }}{{- if not ( empty .Values.externalDatabase.host ) }},externalDatabase.host={{ .Values.externalDatabase.host }}{{- end }}{{- if not ( empty .Values.externalDatabase.user ) }},externalDatabase.user={{ .Values.externalDatabase.user }}{{- end }}{{- if not ( empty .Values.externalDatabase.password ) }},externalDatabase.password={{ .Values.externalDatabase.password }}{{- end }}{{- if not ( empty .Values.externalDatabase.database ) }},externalDatabase.database={{ .Values.externalDatabase.database }}{{- end }}
 
 {{- else -}}
 
@@ -47,7 +47,7 @@ host. To configure Ghost with the URL of your service:
 
 1. Get the Ghost URL and associate its hostname to your cluster external IP:
 
-   export CLUSTER_IP=$(minikube ip) # On Minikube. Use: `kubectl cluster-info` on others K8s clusters
+   export CLUSTER_IP=$(minikube ip ) # On Minikube. Use: `kubectl cluster-info` on others K8s clusters
    echo "Ghost URL: http{{ if .Values.ingress.tls }}s{{ end }}://{{ .Values.ingress.hostname }}"
    echo "$CLUSTER_IP  {{ .Values.ingress.hostname }}" | sudo tee -a /etc/hosts
 
@@ -57,14 +57,14 @@ host. To configure Ghost with the URL of your service:
 
 {{- if eq .Values.service.type "ClusterIP" }}
 
-  echo Blog URL  : http://127.0.0.1:{{ default "80" (coalesce .Values.service.ports.http .Values.service.port) }}{{ .Values.ghostPath }}
-  echo Admin URL : http://127.0.0.1:{{ default "80" (coalesce .Values.service.ports.http .Values.service.port) }}{{ default "/" .Values.ghostPath }}ghost
-  kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ template "common.names.fullname" . }} {{ default "80" (coalesce .Values.service.ports.http .Values.service.port) }}:{{ default "80" (coalesce .Values.service.ports.http .Values.service.port) }}
+  echo Blog URL  : http://127.0.0.1:{{ default "80" ( coalesce .Values.service.ports.http .Values.service.port ) }}{{ .Values.ghostPath }}
+  echo Admin URL : http://127.0.0.1:{{ default "80" ( coalesce .Values.service.ports.http .Values.service.port ) }}{{ default "/" .Values.ghostPath }}ghost
+  kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ template "common.names.fullname" . }} {{ default "80" ( coalesce .Values.service.ports.http .Values.service.port ) }}:{{ default "80" ( coalesce .Values.service.ports.http .Values.service.port ) }}
 
 {{- else if eq .Values.service.type "NodePort" }}
 
-  export APP_HOST=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
-  export APP_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ template "common.names.fullname" . }})
+  export APP_HOST=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}" )
+  export APP_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ template "common.names.fullname" . }} )
 
   echo Blog URL  : http://$APP_HOST:$APP_PORT{{ .Values.ghostPath }}
   echo Admin URL : http://$APP_HOST:$APP_PORT{{ default "/" .Values.ghostPath }}ghost
@@ -96,14 +96,14 @@ host. To configure Ghost to use and external database host:
 
 {{- if contains "NodePort" .Values.service.type }}
 
-  export APP_HOST=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  export APP_HOST=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}" )
 
 {{- else if contains "LoadBalancer" .Values.service.type }}
 
   NOTE: It may take a few minutes for the LoadBalancer IP to be available.
         Watch the status with: 'kubectl get svc --namespace {{ .Release.Namespace }} -w {{ template "common.names.fullname" . }}'
 
-  export APP_HOST=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "common.names.fullname" . }} --template "{{ "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}" }}")
+  export APP_HOST=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "common.names.fullname" . }} --template "{{ "{{ range ( index .status.loadBalancer.ingress 0 ) }}{{ . }}{{ end }}" }}" )
 
 {{- else }}
 
@@ -114,7 +114,7 @@ host. To configure Ghost to use and external database host:
   ## PLEASE UPDATE THE EXTERNAL DATABASE CONNECTION PARAMETERS IN THE FOLLOWING COMMAND AS NEEDED ##
 
   helm upgrade --namespace {{ .Release.Namespace }} {{ .Release.Name }} ./ghost-helm \
-    --set ghostPassword=$APP_PASSWORD,ghostHost=$APP_HOST,service.type={{ .Values.service.type }}{{- if not (empty .Values.externalDatabase.user) }},externalDatabase.user={{ .Values.externalDatabase.user }}{{- end }}{{- if not (empty .Values.externalDatabase.password) }},externalDatabase.password={{ .Values.externalDatabase.password }}{{- end }}{{- if not (empty .Values.externalDatabase.database) }},externalDatabase.database={{ .Values.externalDatabase.database }}{{- end }},externalDatabase.host=YOUR_EXTERNAL_DATABASE_HOST
+    --set ghostPassword=$APP_PASSWORD,ghostHost=$APP_HOST,service.type={{ .Values.service.type }}{{- if not ( empty .Values.externalDatabase.user ) }},externalDatabase.user={{ .Values.externalDatabase.user }}{{- end }}{{- if not ( empty .Values.externalDatabase.password ) }},externalDatabase.password={{ .Values.externalDatabase.password }}{{- end }}{{- if not ( empty .Values.externalDatabase.database ) }},externalDatabase.database={{ .Values.externalDatabase.database }}{{- end }},externalDatabase.host=YOUR_EXTERNAL_DATABASE_HOST
 {{- end }}
 
 {{ include "common.warnings.rollingTag" .Values.image }}

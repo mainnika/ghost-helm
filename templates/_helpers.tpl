@@ -4,21 +4,21 @@
 Return the proper Ghost image name
 */}}
 {{- define "ghost.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.image "global" .Values.global) }}
+{{ include "common.images.image" ( dict "imageRoot" .Values.image "global" .Values.global ) }}
 {{- end -}}
 
 {{/*
 Return the proper image name to change the volume permissions
 */}}
 {{- define "ghost.volumePermissions.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.volumePermissions.image "global" .Values.global) }}
+{{ include "common.images.image" ( dict "imageRoot" .Values.volumePermissions.image "global" .Values.global ) }}
 {{- end -}}
 
 {{/*
 Return the proper Docker Image Registry Secret Names
 */}}
 {{- define "ghost.imagePullSecrets" -}}
-{{ include "common.images.pullSecrets" (dict "images" (list .Values.image .Values.volumePermissions.image) "global" .Values.global) }}
+{{ include "common.images.pullSecrets" ( dict "images" ( list .Values.image .Values.volumePermissions.image ) "global" .Values.global ) }}
 {{- end -}}
 
 {{/*
@@ -39,9 +39,9 @@ If not using ClusterIP, or if a host or LoadBalancerIP is not defined, the value
 */}}
 {{- define "ghost.host" -}}
 {{- if .Values.ingress.enabled }}
-    {{- printf "%s://%s%s" (ternary "https" "http" .Values.ghostEnableHttps) .Values.ingress.hostname .Values.ingress.path | default "" -}}
+    {{- printf "%s://%s%s" ( ternary "https" "http" .Values.ghostEnableHttps ) .Values.ingress.hostname .Values.ingress.path | default "" -}}
 {{- else if .Values.ghostHost -}}
-    {{- printf "%s://%s%s" (ternary "https" "http" .Values.ghostEnableHttps) .Values.ghostHost .Values.ghostPath | default "" -}}
+    {{- printf "%s://%s%s" ( ternary "https" "http" .Values.ghostEnableHttps ) .Values.ghostHost .Values.ghostPath | default "" -}}
 {{- else -}}
     {{- include "ghost.serviceIP" . -}}
 {{- end -}}
@@ -58,7 +58,7 @@ Return the MariaDB Hostname
 Return the MariaDB Port
 */}}
 {{- define "ghost.databasePort" -}}
-    {{- printf "%d" (.Values.externalDatabase.port | int ) -}}
+    {{- printf "%d" ( .Values.externalDatabase.port | int ) -}}
 {{- end -}}
 
 {{/*
@@ -82,7 +82,7 @@ Return the MariaDB Secret Name
 {{- if .Values.externalDatabase.existingSecret -}}
     {{- printf "%s" .Values.externalDatabase.existingSecret -}}
 {{- else if .Values.externalDatabase.password -}}
-    {{- printf "%s-externaldb" (include "common.names.fullname" .) -}}
+    {{- printf "%s-externaldb" ( include "common.names.fullname" . ) -}}
 {{- else -}}
 {{- end -}}
 {{- end -}}
@@ -94,7 +94,7 @@ Return the SMTP Secret Name
 {{- if .Values.smtpExistingSecret -}}
     {{- printf "%s" .Values.smtpExistingSecret -}}
 {{- else if .Values.smtpPassword -}}
-    {{- printf "%s-smtp" (include "common.names.fullname" .) -}}
+    {{- printf "%s-smtp" ( include "common.names.fullname" . ) -}}
 {{- else -}}
 {{- end -}}
 {{- end -}}
@@ -104,7 +104,7 @@ Compile all warnings into a single message.
 */}}
 {{- define "ghost.validateValues" -}}
 {{- $messages := list -}}
-{{- $messages := append $messages (include "ghost.validateValues.database" .) -}}
+{{- $messages := append $messages ( include "ghost.validateValues.database" . ) -}}
 {{- $messages := without $messages "" -}}
 {{- $message := join "\n" $messages -}}
 {{- if $message -}}
@@ -114,7 +114,7 @@ Compile all warnings into a single message.
 
 {{/* Validate values of Ghost - Database */}}
 {{- define "ghost.validateValues.database" -}}
-{{- if or (empty .Values.externalDatabase.host) (empty .Values.externalDatabase.port) (empty .Values.externalDatabase.database) -}}
+{{- if or ( empty .Values.externalDatabase.host ) ( empty .Values.externalDatabase.port ) ( empty .Values.externalDatabase.database ) -}}
 ghost: database
    You did not provide the required parameters to use an external database. 
    To use an external database, please ensure you provide
@@ -131,7 +131,7 @@ Return true if cert-manager required annotations for TLS signed certificates are
 Ref: https://cert-manager.io/docs/usage/ingress/#supported-annotations
 */}}
 {{- define "ghost.ingress.certManagerRequest" -}}
-{{ if or (hasKey . "cert-manager.io/cluster-issuer") (hasKey . "cert-manager.io/issuer") }}
+{{ if or ( hasKey . "cert-manager.io/cluster-issuer" ) ( hasKey . "cert-manager.io/issuer" ) }}
     {{- true -}}
 {{- end -}}
 {{- end -}}
