@@ -25,8 +25,20 @@ spec:
         {{- include "common.tplvalues.render" (dict "value" .Values.podLabels "context" $) | nindent 8 }}
         {{- end }}
       annotations:
-        {{- if or (not .Values.existingSecret) (and (not .Values.smtpExistingSecret) .Values.smtpPassword) }}
-        checksum/secrets: {{ include (print $.Template.BasePath "/secret-db.yaml") . | sha256sum }}
+        {{- $secrets := list -}}
+        {{- if .Values.smtpExistingSecret }}
+        {{- $secrets = append $secrets .Values.smtpExistingSecret }}
+        {{- else if .Values.smtpPassword }}
+        {{- $secrets = append $secrets (include (print $.Template.BasePath "/secret-smtp.yaml") .) }}
+        {{- end }}
+        {{- if .Values.externalDatabase.existingSecret }}
+        {{- $secrets = append $secrets .Values.externalDatabase.existingSecret }}
+        {{- else if .Values.externalDatabase.password }}
+        {{- $secrets = append $secrets (include (print $.Template.BasePath "/secret-db.yaml") .) }}
+        {{- end }}
+        {{- $allSecrets := join "\n" $secrets }}
+        {{- if $allSecrets }}
+        checksum/secrets: {{ print $allSecrets | sha256sum }}
         {{- end }}
         {{- if .Values.podAnnotations }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.podAnnotations "context" $ ) | nindent 8 }}
