@@ -50,6 +50,18 @@ If not using ClusterIP, or if a host or LoadBalancerIP is not defined, the value
 {{- end -}}
 
 {{/*
+Gets the host to be used to admin this application.
+If not using ClusterIP, or if a host or LoadBalancerIP is not defined, the value will be empty.
+*/}}
+{{- define "ghost.adminUrl" -}}
+{{- if .Values.ghostAdminHost -}}
+    {{- printf "%s://%s%s" ( ternary "https" "http" .Values.ghostEnableHttps ) .Values.ghostAdminHost .Values.ghostAdminPath | default "" -}}
+{{- else -}}
+    {{- include "ghost.url" . -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Return the MariaDB Hostname
 */}}
 {{- define "ghost.databaseHost" -}}

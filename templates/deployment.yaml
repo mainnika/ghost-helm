@@ -138,7 +138,7 @@ spec:
             - name: url
               value: {{ ( include "ghost.url" . ) | quote }}
             - name: admin__url
-              value: {{ ( include "ghost.url" . ) | quote }}
+              value: {{ ( include "ghost.adminUrl" . ) | quote }}
             - name: server__port
               value: {{ ternary .Values.containerPorts.https .Values.containerPorts.http .Values.ghostEnableHttps | quote }}
             - name: mail__from

@@ -50,6 +50,16 @@ spec:
             pathType: {{ .Values.ingress.pathType }}
             {{- end }}
             backend: {{- include "common.ingress.backend" ( dict "serviceName" ( include "common.names.fullname" . ) "servicePort" ( ternary "https" "http" $.Values.ghostEnableHttps ) "context" $ )  | nindent 14 }}
+    {{- if and .Values.ghostAdminHost ( not ( eq .Values.ghostAdminHost .Values.ghostHost ) ) }}
+    - host: {{ .Values.ghostAdminHost }}
+      http:
+        paths:
+          - path: {{ .Values.ghostAdminPath }}
+            {{- if eq "true" ( include "common.ingress.supportsPathType" . ) }}
+            pathType: {{ .Values.ingress.pathType }}
+            {{- end }}
+            backend: {{- include "common.ingress.backend" ( dict "serviceName" ( include "common.names.fullname" . ) "servicePort" ( ternary "https" "http" $.Values.ghostEnableHttps ) "context" $ )  | nindent 14 }}
+    {{- end }}
     {{- else }}
     {{- end }}
     {{- range .Values.ingress.extraHosts }}

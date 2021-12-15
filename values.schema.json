@@ -13,6 +13,12 @@
       "form": true,
       "description": "Hostname used to generate application URLs"
     },
+    "ghostAdminHost": {
+      "type": "string",
+      "title": "Admin host",
+      "form": true,
+      "description": "Hostname used to create custom admin URLs"
+    },
     "persistence": {
       "type": "object",
       "properties": {

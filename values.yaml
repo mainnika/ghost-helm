@@ -84,6 +84,12 @@ ghostHost: "example.com"
 ## @param ghostPath URL sub path where to server the Ghost application
 ##
 ghostPath: /
+## @param ghostAdminHost Ghost host to create custom admin URLs
+##
+## ghostAdminHost: "admin.example.com"
+## @param ghostAdminPath URL sub path where to server admin page the Ghost application
+##
+## ghostAdminPath: /
 ## @param ghostEnableHttps Configure Ghost to build application URLs using https
 ##
 ghostEnableHttps: false
