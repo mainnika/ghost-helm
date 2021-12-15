@@ -1,0 +1,46 @@
+name: Make a new release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Read metadata
+        id: meta
+        run: |
+          chartVersion=$(sed -n "s/^version[:\ ]*\(.*\)$/\1/p" Chart.yaml)
+          echo "::set-output name=chartVersion::$chartVersion"
+
+      - name: Check version
+        id: released
+        run: |
+          currentRelease="$(gh api graphql -F owner=$OWNER -F name=$REPO -F tagName=v$TAG -f query='
+            query($name: String!, $owner: String!, $tagName: String!) {
+              repository(owner: $owner, name: $name) {
+                release (tagName: $tagName) { name }
+              }
+            }
+          ' --jq '.data.repository.release.name')"
+          echo "::set-output name=currentRelease::$currentRelease"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          TAG: ${{ steps.meta.outputs.chartVersion }}
+
+      - name: Make a release
+        if: ${{ steps.released.outputs.currentRelease == '' && github.ref_name == 'main' && !github.event.repository.private }}
+        run: |
+          helm package . -u -d ./dist
+          gh release create v$TAG ./dist/*.tgz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.meta.outputs.chartVersion }}

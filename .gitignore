@@ -9,5 +9,6 @@
 *.tmproj
 # Binary deps
 charts/
+dist/
 # Macos files
 .DS_Store
