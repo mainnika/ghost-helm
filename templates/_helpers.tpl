@@ -4,7 +4,11 @@
 Return the proper Ghost image name
 */}}
 {{- define "ghost.image" -}}
-{{ include "common.images.image" ( dict "imageRoot" .Values.image "global" .Values.global ) }}
+{{- $imageRoot := dict -}}
+{{- $_ := set $imageRoot "registry" .Values.image.registry -}}
+{{- $_ := set $imageRoot "repository" .Values.image.repository -}}
+{{- $_ := set $imageRoot "tag" ( .Values.image.tag | default .Chart.AppVersion ) -}}
+{{ include "common.images.image" ( dict "imageRoot" $imageRoot "global" .Values.global ) }}
 {{- end -}}
 
 {{/*
