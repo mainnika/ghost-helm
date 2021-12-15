@@ -9,7 +9,7 @@ APP VERSION: {{ .Chart.AppVersion }}
 
 {{- if .Values.externalDatabase.host -}}
 
-{{- if empty ( include "ghost.host" . ) -}}
+{{- if empty ( include "ghost.url" . ) -}}
 ###############################################################################
 ### ERROR: You did not provide an external host in your 'helm install' call ###
 ###############################################################################
@@ -71,8 +71,8 @@ host. To configure Ghost with the URL of your service:
 
 {{- else }}
 
-  echo Blog URL  : http://{{ include "ghost.host" . }}
-  echo Admin URL : http://{{ include "ghost.host" . }}ghost
+  echo Blog URL  : http://{{ include "ghost.url" . }}
+  echo Admin URL : http://{{ include "ghost.url" . }}ghost
 
 {{- end }}
 {{- end }}

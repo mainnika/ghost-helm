@@ -1,4 +1,4 @@
-{{- if include "ghost.host" . -}}
+{{- if include "ghost.url" . -}}
 apiVersion: {{ include "common.capabilities.deployment.apiVersion" . }}
 kind: Deployment
 metadata:
@@ -136,9 +136,9 @@ spec:
                   key: db-password
             {{- end }}
             - name: url
-              value: {{ include "ghost.host" . | quote }}
+              value: {{ ( include "ghost.url" . ) | quote }}
             - name: admin__url
-              value: {{ include "ghost.host" . | quote }}
+              value: {{ ( include "ghost.url" . ) | quote }}
             - name: server__port
               value: {{ ternary .Values.containerPorts.https .Values.containerPorts.http .Values.ghostEnableHttps | quote }}
             - name: mail__from

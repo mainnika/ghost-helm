@@ -41,7 +41,7 @@ Note, returns 127.0.0.1 if using ClusterIP.
 Gets the host to be used for this application.
 If not using ClusterIP, or if a host or LoadBalancerIP is not defined, the value will be empty.
 */}}
-{{- define "ghost.host" -}}
+{{- define "ghost.url" -}}
 {{- if .Values.ingress.enabled }}
     {{- printf "%s://%s%s" ( ternary "https" "http" .Values.ghostEnableHttps ) .Values.ingress.hostname .Values.ingress.path | default "" -}}
 {{- else if .Values.ghostHost -}}
