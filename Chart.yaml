@@ -29,4 +29,4 @@ name: ghost
 sources:
   - https://github.com/mainnika/ghost-docker
   - https://www.ghost.org/
-version: 1.0.0-ghostnative
+version: 1.0.1-ghostnative
